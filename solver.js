@@ -76,8 +76,6 @@ function breed() {
 
 Solver.prototype.add = add;
 function add(gene) {
-  assert(gene instanceof Array, 'gene must be an array');
-
   var fitness = this.evaluate(gene);
   var specimen = { fitness: fitness, gene: gene };
   this.population.push(specimen);
