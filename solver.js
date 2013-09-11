@@ -65,7 +65,7 @@ function decimate() {
   this.population.sort(fitnessSort);
   var length = this.population.length;
   var kill = Math.round(this.options.decimation * length);
-  this.population = this.population.slice(0, length - kill);
+  this.population.splice(length - kill + 1);
 }
 
 Solver.prototype.breed = breed;
