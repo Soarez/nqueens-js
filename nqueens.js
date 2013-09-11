@@ -13,6 +13,9 @@ function NQueens(options) {
   assert(options.boardSize, 'need options.boardSize');
   assert(options.maxGenerations, 'need options.maxGenerations');
 
+  assert(options.boardSize % 5 === 0,
+      'this implementation needs board sizes that are multiple of 5');
+
   options.populationSize = options.populationSize || 100;
   options.decimation = options.decimation || 0.2;
 
@@ -77,10 +80,15 @@ function evaluate(gene) {
   var threats = 0;
 
   var i, j;
-  for(i = 0; i < board.length; ++i)
-    for(j = 0; j < board.length; ++j)
-      if (mutualThreat(board, i, j))
-        ++threats;
+  for(i = 0; i < board.length; ++i) {
+    for(j = 0; j < board.length / 5; j += 5) {
+      if (mutualThreat(board, i, j + 0)) ++threats;
+      if (mutualThreat(board, i, j + 1)) ++threats;
+      if (mutualThreat(board, i, j + 2)) ++threats;
+      if (mutualThreat(board, i, j + 3)) ++threats;
+      if (mutualThreat(board, i, j + 4)) ++threats;
+    }
+  }
 
   var maxThreats = board.length * (board.length - 1);
   var fitness = (maxThreats - threats) / maxThreats;
@@ -102,3 +110,4 @@ function mutualThreat(board, columnA, columnB) {
     if(Math.abs(board[latter] - board[former]) === latter - former)
       return true;
 }
+
